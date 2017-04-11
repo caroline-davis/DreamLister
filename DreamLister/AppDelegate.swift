@@ -91,3 +91,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+// creates global var to easily access funcs in other files
+let ad = UIApplication.shared.delegate as! AppDelegate
+let context = ad.persistentContainer.viewContext
+
+
+
+
+

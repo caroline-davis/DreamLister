@@ -72,6 +72,9 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         
+        // important so the methods know what controller to delegate stuff to etc.
+        controller.delegate = self
+        
         self.controller = controller
         
         do {

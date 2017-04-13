@@ -85,5 +85,36 @@ class ItemDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
         
     }
 
+    @IBAction func savePressed(_ sender: UIButton) {
+            
+        let item = Item(context: context)
+        
+        if let title = titleField.text {
+            item.title = title
+        }
+        
+        if let price = priceField.text {
+            
+            item.price = (price as NSString).doubleValue
+            
+        }
+        
+        if let details = detailsField.text {
+            item.details = details
+        }
+        
+        // which column its in = 0 cos there is only one
+        item.toStore = stores[storePicker.selectedRow(inComponent: 0)]
+        
+        ad.saveContext()
+        
+        // the -= is new syntax for the popview controller
+        _ = navigationController?.popViewController(animated: true)
+        
+            
+    }
+        
+    
+    
 
 }

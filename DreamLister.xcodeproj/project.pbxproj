@@ -64,8 +64,8 @@
 		F1B6BD2C1E9F2F63008A3577 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				F1B6BD2D1E9F2F80008A3577 /* ItemDetailsVC.swift */,
 				F1DF328E1E9C9E1C002A9207 /* MainVC.swift */,
+				F1B6BD2D1E9F2F80008A3577 /* ItemDetailsVC.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";

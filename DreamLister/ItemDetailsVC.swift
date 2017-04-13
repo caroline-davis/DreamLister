@@ -15,11 +15,13 @@ class ItemDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
     @IBOutlet weak var titleField: CustomTextField!
     @IBOutlet weak var priceField: CustomTextField!
     @IBOutlet weak var detailsField: CustomTextField!
+    @IBOutlet weak var typeField: CustomTextField!
     @IBOutlet weak var thumbImage: UIImageView!
     
     var stores = [Store]()
     var itemToEdit: Item?
     var imagePicker: UIImagePickerController!
+    var type: ItemType?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,14 +159,20 @@ class ItemDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
                     
                 } while (index < stores.count)
             }
+            
+            if let itemType = item.toItemType {
+                typeField.text = itemType.type
+            }
         }
+        
     }
     
     // deletes item off
     @IBAction func deletePressed(_ sender: AnyObject) {
         
-        if itemToEdit != nil {
+        if itemToEdit != nil || type != nil {
             context.delete(itemToEdit!)
+            context.delete(type!)
             ad.saveContext()
         }
         

@@ -27,6 +27,7 @@
                                     <segment title="Newest"/>
                                     <segment title="Price"/>
                                     <segment title="Title"/>
+                                    <segment title="Type"/>
                                 </segments>
                                 <connections>
                                     <action selector="segmentChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="Wei-OI-E3E"/>
@@ -186,15 +187,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Details" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ytZ-Ht-tx5" customClass="CustomTextField" customModule="DreamLister" customModuleProvider="target">
-                                <color key="backgroundColor" red="0.87489983969999996" green="0.87489983969999996" blue="0.87489983969999996" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="60" id="lo6-D7-bcy"/>
-                                </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lmX-fv-Jcu"/>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="clr-af-GTa">
                                 <color key="backgroundColor" white="0.28645446679999997" alpha="1" colorSpace="calibratedWhite"/>
@@ -218,6 +210,24 @@
                                 <color key="textColor" white="0.28645446679999997" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Category eg. Electronics" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Xrc-5D-1IS" customClass="CustomTextField" customModule="DreamLister" customModuleProvider="target">
+                                <color key="backgroundColor" red="0.87489983969999996" green="0.87489983969999996" blue="0.87489983969999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="hFi-u9-e7L"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Details" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ytZ-Ht-tx5" customClass="CustomTextField" customModule="DreamLister" customModuleProvider="target">
+                                <color key="backgroundColor" red="0.87489983969999996" green="0.87489983969999996" blue="0.87489983969999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="lo6-D7-bcy"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -236,12 +246,15 @@
                             <constraint firstItem="eRI-m3-VKl" firstAttribute="leading" secondItem="i6F-cz-us4" secondAttribute="trailing" constant="8" id="WS9-Bx-WdQ"/>
                             <constraint firstItem="ytZ-Ht-tx5" firstAttribute="trailing" secondItem="f5W-kF-jQA" secondAttribute="trailingMargin" id="aEZ-z3-CaS"/>
                             <constraint firstItem="lru-Gt-qnE" firstAttribute="trailing" secondItem="f5W-kF-jQA" secondAttribute="trailingMargin" id="de5-e8-jxi"/>
-                            <constraint firstItem="ytZ-Ht-tx5" firstAttribute="top" secondItem="eRI-m3-VKl" secondAttribute="bottom" constant="10" id="dkM-GN-In7"/>
                             <constraint firstItem="clr-af-GTa" firstAttribute="leading" secondItem="f5W-kF-jQA" secondAttribute="leading" id="euM-Y2-RZi"/>
                             <constraint firstItem="i6F-cz-us4" firstAttribute="top" secondItem="ucy-6C-Abn" secondAttribute="bottom" constant="8" id="i0T-FP-jZ7"/>
+                            <constraint firstItem="Xrc-5D-1IS" firstAttribute="leading" secondItem="f5W-kF-jQA" secondAttribute="leadingMargin" id="iak-aC-XGN"/>
+                            <constraint firstItem="Xrc-5D-1IS" firstAttribute="trailing" secondItem="f5W-kF-jQA" secondAttribute="trailingMargin" id="n2V-sf-RjW"/>
                             <constraint firstItem="eRI-m3-VKl" firstAttribute="top" secondItem="lru-Gt-qnE" secondAttribute="bottom" constant="10" id="oGr-mE-Qwe"/>
                             <constraint firstItem="lru-Gt-qnE" firstAttribute="top" secondItem="ucy-6C-Abn" secondAttribute="bottom" constant="18" id="oLQ-31-KhR"/>
                             <constraint firstItem="i6F-cz-us4" firstAttribute="leading" secondItem="f5W-kF-jQA" secondAttribute="leadingMargin" id="tiR-H4-XVZ"/>
+                            <constraint firstItem="ytZ-Ht-tx5" firstAttribute="top" secondItem="Xrc-5D-1IS" secondAttribute="bottom" constant="8" id="uNe-AI-d1t"/>
+                            <constraint firstItem="Xrc-5D-1IS" firstAttribute="top" secondItem="eRI-m3-VKl" secondAttribute="bottom" constant="8" id="xEd-QF-dY2"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Add/Edit" id="aP6-1O-ErJ">
@@ -258,6 +271,7 @@
                         <outlet property="storePicker" destination="lmX-fv-Jcu" id="eXV-wW-4dQ"/>
                         <outlet property="thumbImage" destination="i6F-cz-us4" id="Mou-ji-kf8"/>
                         <outlet property="titleField" destination="lru-Gt-qnE" id="pwl-ph-0mR"/>
+                        <outlet property="typeField" destination="Xrc-5D-1IS" id="o7h-wM-pnw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UuT-Lk-SVR" userLabel="First Responder" sceneMemberID="firstResponder"/>

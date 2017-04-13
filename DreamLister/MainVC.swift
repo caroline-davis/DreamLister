@@ -16,6 +16,10 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     
     // we are fetching the "Item" dataclasses which is in the xdatamodel
     var controller: NSFetchedResultsController<Item>!
+    // as this is a different class called "ItemType" i has to create a new controller
+    var otherController: NSFetchedResultsController<ItemType>!
+
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,10 +91,13 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     func attemptFetch() {
         
         let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
+        // as this is another type of entity i created a new fetchtype
+        let otherFetchRequest: NSFetchRequest<ItemType> = ItemType.fetchRequest()
         
         let dateSort = NSSortDescriptor(key: "created", ascending: false)
         let priceSort = NSSortDescriptor(key: "price", ascending: true)
         let titleSort = NSSortDescriptor(key: "title", ascending: true)
+        let typeSort = NSSortDescriptor(key: "type", ascending: true)
         
         if segment.selectedSegmentIndex == 0 {
             fetchRequest.sortDescriptors = [dateSort]
@@ -98,8 +105,11 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
             fetchRequest.sortDescriptors = [priceSort]
         } else if segment.selectedSegmentIndex == 2 {
             fetchRequest.sortDescriptors = [titleSort]
+        } else if segment.selectedSegmentIndex == 3 {
+            otherFetchRequest.sortDescriptors = [typeSort]
         }
         
+        if segment.selectedSegmentIndex != 3 {
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         
         // important so the methods know what controller to delegate stuff to etc.
@@ -114,6 +124,25 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
             print("\(error)")
         }
         
+        } else {
+            
+            let otherController = NSFetchedResultsController(fetchRequest: otherFetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            print("Type 3")
+            
+            // important so the methods know what controller to delegate stuff to etc.
+            otherController.delegate = self
+            
+            self.otherController = otherController
+            
+            do {
+                try otherController.performFetch()
+            } catch {
+                let error = error as NSError
+                print("\(error)")
+            }
+
+            
+        }
     }
     
     @IBAction func segmentChange(_ sender: AnyObject) {

@@ -9,14 +9,17 @@
 import UIKit
 import CoreData
 
-class ItemDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class ItemDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var storePicker: UIPickerView!
     @IBOutlet weak var titleField: CustomTextField!
     @IBOutlet weak var priceField: CustomTextField!
     @IBOutlet weak var detailsField: CustomTextField!
+    @IBOutlet weak var thumbImage: UIImageView!
     
     var stores = [Store]()
+    var itemToEdit: Item?
+    var imagePicker: UIImagePickerController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +31,8 @@ class ItemDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
         
         storePicker.delegate = self
         storePicker.dataSource = self
+        imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
     
 //        // creating store entities for coredata
 //        let store = Store(context: context)
@@ -46,6 +51,10 @@ class ItemDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
 //        ad.saveContext()
         
         getStores()
+        
+        if itemToEdit != nil {
+            loadItemData()
+        }
     
     }
     
@@ -87,7 +96,20 @@ class ItemDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
 
     @IBAction func savePressed(_ sender: UIButton) {
             
-        let item = Item(context: context)
+        var item: Item!
+        
+        let picture = Image(context: context)
+        picture.image = thumbImage.image
+        
+        
+        // checks to see if it will update existing cell instead of just making a new one
+        if itemToEdit == nil {
+            
+            item = Item(context: context)
+        } else {
+            item = itemToEdit
+        }
+        item.toImage = picture
         
         if let title = titleField.text {
             item.title = title
@@ -113,8 +135,59 @@ class ItemDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
         
             
     }
+    
+    func loadItemData() {
         
+        if let item = itemToEdit {
+            titleField.text = item.title
+            priceField.text = "\(item.price)"
+            detailsField.text = item.details
+            thumbImage.image = item.toImage?.image as? UIImage
+            
+            if let store = item.toStore {
+                var index = 0
+                repeat {
+                    
+                    let s = stores[index]
+                    if s.name == store.name {
+                        storePicker.selectRow(index, inComponent: 0, animated: false)
+                        break
+                    }
+                    index += 1
+                    
+                } while (index < stores.count)
+            }
+        }
+    }
+    
+    // deletes item off
+    @IBAction func deletePressed(_ sender: AnyObject) {
+        
+        if itemToEdit != nil {
+            context.delete(itemToEdit!)
+            ad.saveContext()
+        }
+        
+        _ = navigationController?.popViewController(animated: true)
+    }
     
     
-
+    @IBAction func addImage(_ sender: UIButton) {
+        
+        present(imagePicker, animated: true, completion: nil)
+        
+    }
+    
+    // adds the image and abilty to get an image. in the plist added a privacy photos line
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        
+        // have to get the image out of the dictionary
+        if let img = info[UIImagePickerControllerOriginalImage] as? UIImage {
+        
+            thumbImage.image = img
+        }
+        
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
 }

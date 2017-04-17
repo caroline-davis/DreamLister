@@ -16,8 +16,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     
     // we are fetching the "Item" dataclasses which is in the xdatamodel
     var controller: NSFetchedResultsController<Item>!
-    // as this is a different class called "ItemType" i has to create a new controller
-    var otherController: NSFetchedResultsController<ItemType>!
 
 
     
@@ -26,7 +24,7 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         tableView.delegate = self
         tableView.dataSource = self
         
-       // generateTestData()
+        // generateTestData()
         attemptFetch()
     }
     
@@ -91,13 +89,12 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     func attemptFetch() {
         
         let fetchRequest: NSFetchRequest<Item> = Item.fetchRequest()
-        // as this is another type of entity i created a new fetchtype
-        let otherFetchRequest: NSFetchRequest<ItemType> = ItemType.fetchRequest()
         
         let dateSort = NSSortDescriptor(key: "created", ascending: false)
         let priceSort = NSSortDescriptor(key: "price", ascending: true)
         let titleSort = NSSortDescriptor(key: "title", ascending: true)
-        let typeSort = NSSortDescriptor(key: "type", ascending: true)
+        // you can sort by a property in a relationship by using "relationship.property"
+        let typeSort = NSSortDescriptor(key: "toItemType.type", ascending: true)
         
         if segment.selectedSegmentIndex == 0 {
             fetchRequest.sortDescriptors = [dateSort]
@@ -106,10 +103,9 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         } else if segment.selectedSegmentIndex == 2 {
             fetchRequest.sortDescriptors = [titleSort]
         } else if segment.selectedSegmentIndex == 3 {
-            otherFetchRequest.sortDescriptors = [typeSort]
+            fetchRequest.sortDescriptors = [typeSort]
         }
         
-        if segment.selectedSegmentIndex != 3 {
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         
         // important so the methods know what controller to delegate stuff to etc.
@@ -122,26 +118,6 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
         } catch {
             let error = error as NSError
             print("\(error)")
-        }
-        
-        } else {
-            
-            let otherController = NSFetchedResultsController(fetchRequest: otherFetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            print("Type 3")
-            
-            // important so the methods know what controller to delegate stuff to etc.
-            otherController.delegate = self
-            
-            self.otherController = otherController
-            
-            do {
-                try otherController.performFetch()
-            } catch {
-                let error = error as NSError
-                print("\(error)")
-            }
-
-            
         }
     }
     
@@ -201,9 +177,15 @@ class MainVC: UIViewController, UITableViewDelegate, UITableViewDataSource, NSFe
     func generateTestData() {
         
         let item = Item(context: context)
+        let itemType = ItemType(context: context)
+        
+        itemType.type = "Computerly"
+        
+        item.toItemType = itemType
         item.title = "MacBook Pro"
         item.price = 1800
         item.details = "I can't wait until the September event, I hope they release new MBPs"
+
         
         let item2 = Item(context: context)
         item2.title = "Bose Headphones"

@@ -102,7 +102,11 @@ class ItemDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
         
         let picture = Image(context: context)
         picture.image = thumbImage.image
+        // added in
+        let category = ItemType(context: context)
+        category.type = typeField.text
         
+
         
         // checks to see if it will update existing cell instead of just making a new one
         if itemToEdit == nil {
@@ -112,6 +116,8 @@ class ItemDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
             item = itemToEdit
         }
         item.toImage = picture
+        // added in
+        item.toItemType = category
         
         if let title = titleField.text {
             item.title = title
@@ -146,6 +152,10 @@ class ItemDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
             detailsField.text = item.details
             thumbImage.image = item.toImage?.image as? UIImage
             
+            // load the TYPE in here
+            typeField.text = item.toItemType?.type
+            
+            
             if let store = item.toStore {
                 var index = 0
                 repeat {
@@ -160,9 +170,6 @@ class ItemDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
                 } while (index < stores.count)
             }
             
-            if let itemType = item.toItemType {
-                typeField.text = itemType.type
-            }
         }
         
     }
@@ -170,9 +177,9 @@ class ItemDetailsVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSou
     // deletes item off
     @IBAction func deletePressed(_ sender: AnyObject) {
         
-        if itemToEdit != nil || type != nil {
+        if itemToEdit != nil {
             context.delete(itemToEdit!)
-            context.delete(type!)
+   
             ad.saveContext()
         }
         
